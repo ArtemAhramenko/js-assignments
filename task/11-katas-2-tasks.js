@@ -34,27 +34,7 @@
  *
  */
 function parseBankAccount(bankAccount) {
-    const parts = [
-        [' _ ', '   ', ' _ ', ' _ ', '   ', ' _ ', ' _ ', ' _ ', ' _ ', ' _ '],
-        ['| |', '  |', ' _|', ' _|', '|_|', '|_ ', '|_ ', '  |', '|_|', '|_|'],
-        ['|_|', '  |', '|_ ', ' _|', '  |', ' _|', '|_|', '  |', '|_|', ' _|']
-    ];
-
-    let number = 0;
-    for (let i = 0; i < bankAccount.length / 3 - 1; i += 3) {
-        const digit = [bankAccount.slice(i, i + 3),
-            bankAccount.slice(i + 3 * 9 + 1, i + 3 * 10 + 1),
-            bankAccount.slice(i + 3 * 18 + 2, i + 3 * 19 + 2)];
-
-        for (let j = 0; j < parts[0].length; j++) {
-            if (parts[0][j] == digit[0] && parts[1][j] == digit[1] && parts[2][j] == digit[2]) {
-                number = number * 10 + j;
-                break;
-            }
-        }
-    }
-
-    return number;
+    throw new Error('Not implemented');
 }
 
 
@@ -120,55 +100,8 @@ const PokerRank = {
 }
 
 function getPokerHandRank(hand) {
-    const getShape = card => card[card.length - 1];
-    const rankToNum = rank => isNaN(parseInt(rank)) ? (11 + ['J', 'Q', 'K', 'A'].indexOf(rank)) : parseInt(rank);
-    const getRank = card => rankToNum(card.length == 3 ? card.slice(0, 2) : card[0]);
-    const isSameShape = cards => cards.every(card => getShape(card) == getShape(cards[0]));
 
-    function countRanks(cards) {
-        const counters = Array.from({length: 13}, elem => 0);
-        for (let card of cards) {
-            counters[getRank(card) - 2]++;
-        }
-        return counters;
-    }
-
-    function isStraight (cards) {
-        const sorted = cards.map(card => getRank(card)).sort((a, b) => a - b);
-        if (sorted[0] == '2' && sorted[sorted.length - 1] == '14') {
-            sorted.unshift(sorted.pop());
-        }
-        for (let i = 1; i < sorted.length; i++) {
-            const diff = sorted[i] - sorted[i - 1];
-            if (diff != 1 && diff != -12) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    const ranks = countRanks(hand);
-    switch(true) {
-        case (isStraight(hand) && isSameShape(hand)):
-            return PokerRank.StraightFlush;
-        case (ranks.indexOf(4) != -1):
-            return PokerRank.FourOfKind;
-        case (ranks.indexOf(3) != -1 && ranks.indexOf(2) != -1):
-            return PokerRank.FullHouse;
-        case isSameShape(hand):
-            return PokerRank.Flush;
-        case isStraight(hand):
-            return PokerRank.Straight;
-        case ranks.indexOf(3) != -1:
-            return PokerRank.ThreeOfKind;
-        case ranks.indexOf(2) != -1 && ranks.lastIndexOf(2) != ranks.indexOf(2):
-            return PokerRank.TwoPairs;
-        case ranks.indexOf(2) != -1:
-            return PokerRank.OnePair;
-        default:
-            return PokerRank.HighCard;
-    }
+    throw new Error('Not implemented');
 }
 
 
