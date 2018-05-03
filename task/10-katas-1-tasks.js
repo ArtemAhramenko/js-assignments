@@ -153,24 +153,7 @@ function getZigZagMatrix(n) {
  *
  */
 function canDominoesMakeRow(dominoes) {
-    const result = [[]];
-    result[0] = dominoes.shift();
-
-    let lastLength = 0;
-    while (lastLength != dominoes.length && dominoes.length > 0) {
-        lastLength = dominoes.length;
-        for (let i = 0; i < dominoes.length; i++) {
-            if (result[result.length - 1][1] == dominoes[i][0] && result[result.length - 1][0] != dominoes[i][1]) {
-                result[result.length] = dominoes[i];
-                dominoes.splice(i, 1);
-            } else if (result[result.length - 1][1] == dominoes[i][1] && result[result.length - 1][0] != dominoes[i][1]) {
-                result[result.length] = dominoes[i].reverse();
-                dominoes.splice(i, 1);
-            }
-        }
-    };
-
-    return !dominoes.length;
+    throw new Error('Not implemented');
 }
 
 
