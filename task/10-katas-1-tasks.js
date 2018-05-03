@@ -17,41 +17,8 @@
  *  ]
  */
 function createCompassPoints() {
-    const sides = ['N','E','S','W'];  // use array of cardinal directions only!
-    const points = [];
-
-    let middleAzimuth = 0.00;
-    function getCompassPoint(abbreviation, azimuth) {
-        const point = {
-            abbreviation: abbreviation,
-            azimuth: azimuth
-        };
-        middleAzimuth += 11.25;
-
-        return point;
-    }
-
-    for (let i = 0; i < sides.length; i++) {
-        const next = (i == sides.length - 1) ? sides[0] : sides[i + 1];
-        const side = sides[i];
-        const isEven = !(i % 2);
-
-        points.push(getCompassPoint(`${side}`, middleAzimuth));
-        points.push(getCompassPoint(`${side}b${next}`, middleAzimuth));
-        points.push(getCompassPoint(isEven ? `${side}${side}${next}` :
-            `${side}${next}${side}`, middleAzimuth));
-        points.push(getCompassPoint(isEven ? `${side}${next}b${side}` :
-            `${next}${side}b${side}`, middleAzimuth));
-        points.push(getCompassPoint(isEven ? `${side}${next}` :
-            `${next}${side}`, middleAzimuth));
-        points.push(getCompassPoint(isEven ? `${side}${next}b${next}` :
-            `${next}${side}b${next}`, middleAzimuth));
-        points.push(getCompassPoint(isEven ? `${next}${side}${next}` :
-            `${next}${next}${side}`, middleAzimuth));
-        points.push(getCompassPoint(`${next}b${side}`, middleAzimuth));
-    }
-
-    return points;
+    throw new Error('Not implemented');
+    var sides = ['N','E','S','W'];  // use array of cardinal directions only!
 }
 
 
@@ -89,34 +56,7 @@ function createCompassPoints() {
  *   'nothing to do' => 'nothing to do'
  */
 function* expandBraces(str) {
-    let expanded = [str];
-
-    const bracedSubstringRegex = /\{[^\{\}]*?\}/g;
-
-    let hasFinished = false;
-    while (!hasFinished) {
-        hasFinished = true;
-        let newExpanded = [];
-
-        for (let string of expanded) {
-            let matches = string.match(bracedSubstringRegex);
-            if (matches) {
-                hasFinished = false;
-                let options = matches[0].slice(1, -1).split(',');
-                for (let option of options) {
-                    newExpanded.push(string.replace(matches[0], option));
-                }
-            } else {
-                newExpanded.push(string);
-            }
-        }
-        expanded = newExpanded;
-    }
-    expanded = [...new Set(expanded)];
-
-    for (let string of expanded) {
-        yield string;
-    }
+    throw new Error('Not implemented');
 }
 
 
@@ -254,30 +194,7 @@ function canDominoesMakeRow(dominoes) {
  * [ 1, 2, 4, 5]          => '1,2,4,5'
  */
 function extractRanges(nums) {
-    return nums.reduce(
-        function (acc, elem, index) {
-            if (acc.length > 0) {
-                const last = acc[acc.length - 1].split('-');
-                if (last.length > 1) {
-                    if (elem - parseInt(last[1]) < 2) {
-                        acc.pop();
-                        acc.push(`${last[0]}-${elem}`);
-                        return acc;
-                    }
-                }
-
-                if (acc.length > 1) {
-                    const beforeLast = acc[acc.length - 2];
-                    if (beforeLast.split('-').length == 1 && elem - parseInt(beforeLast) == 2) {
-                        acc.pop();
-                        acc.push(`${acc.pop()}-${elem}`);
-                        return acc;
-                    }
-                }
-            }
-            acc.push(elem.toString());
-            return acc;
-        }, []).toString();
+    throw new Error('Not implemented');
 }
 
 module.exports = {

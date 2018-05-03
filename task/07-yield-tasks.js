@@ -106,17 +106,7 @@ function* getFibonacciSequence() {
  *
  */
 function* depthTraversalTree(root) {
-    let stack = [root];
-
-    while (stack.length) {
-        let node = stack.pop();
-        yield node;
-        if (node.children !== undefined) {
-            for (let child of node.children.reverse()) {
-                stack.push(child);
-            }
-        }
-    }
+    throw new Error('Not implemented');
 }
 
 
@@ -142,21 +132,7 @@ function* depthTraversalTree(root) {
  *
  */
 function* breadthTraversalTree(root) {
-    let queue = [root];
-
-    while (queue.length) {
-        let node = queue.shift();
-        yield node;
-        if (node.children !== undefined) {
-            for (let child of node.children) {
-                if (!queue.length && child.children === undefined) {
-                    yield child;
-                } else {
-                    queue.push(child);
-                }
-            }
-        }
-    }
+    throw new Error('Not implemented');
 }
 
 

@@ -83,28 +83,7 @@ function parseBankAccount(bankAccount) {
  *                                                                                                'characters.'
  */
 function* wrapText(text, columns) {
-    if (columns >= text.length) {
-        yield text;
-        text = '';
-    }
-
-    while (text.length) {
-        const column = text.slice(0, columns + 1);
-        const spaceIndex = column.lastIndexOf(' ');
-        if (spaceIndex == -1) {
-            const firstSpaceIndex = text.indexOf(' ');
-            if (firstSpaceIndex == -1) {
-                yield text;
-                text = '';
-            } else {
-                yield text.slice(0, firstSpaceIndex);
-                text = text.slice(firstSpaceIndex + 1);
-            }
-        } else {
-            yield text.slice(0, spaceIndex);
-            text = text.slice(spaceIndex + 1);
-        }
-    }
+    throw new Error('Not implemented');
 }
 
 
@@ -224,79 +203,7 @@ function getPokerHandRank(hand) {
  *    '+-------------+\n'
  */
 function* getFigureRectangles(figure) {
-    figure = figure.split('\n').slice(0, -1).map(line => line.split(''));
-
-    function deleteShape(y, x, width, height) {
-        for (let i = y; i < y + height - 1; i++) {
-            for (let j = x; j < x + width - 1; j++) {
-                figure[i][j] = ' ';
-            }
-        }
-
-        // for upper right corner of shape
-        let noCornersAbove = false;
-        let noCornersOnRight = x + width - 1 == figure[0].length - 1 || figure[y].slice(x + width).indexOf('+') == -1;
-
-        if (noCornersOnRight) {
-            for (let i = y; i < y + height - 1; i++) {
-                figure[i][x + width - 1] = ' ';
-            }
-            noCornersAbove = true;
-        }
-        if (y + height - 1 == figure.length - 1 || figure[y + height][x] == ' ') {
-            figure[y + height - 1][x] = ' ';
-        }
-
-        // for lower right corner of shape
-        noCornersOnRight = x + width - 1 == figure[0].length - 1 || figure[y + height - 1].slice(x + width).indexOf('+') == -1;
-        let noCornersBelow = true;
-        for (let i = y + height; noCornersBelow && i < figure.length; i++) {
-            if (figure[i][x + width - 1] == '+') {
-                noCornersBelow = false;
-            }
-        }
-
-        if (noCornersBelow && (noCornersOnRight || noCornersAbove)) {
-            figure[y + height - 1][x + width - 1] = ' ';
-        }
-    }
-
-    function createShape(width, height) {
-        const shape = Array.from({length: height});
-        for (let i = 0; i < height; i++) {
-            shape[i] = !i || i == height - 1 ?
-                '+' + Array.from({length: width - 2}, () => '-').join('') + '+' :
-                '|' + Array.from({length: width - 2}, () => ' ').join('') + '|';
-        }
-
-        shape[shape.length - 1] += '\n';
-        return shape.join('\n');
-    }
-
-    let width = 0;
-    let height = 0;
-    let hasShape = true;
-    while (hasShape) {
-        hasShape = false;
-
-        for (let i = 0; i < figure.length && !hasShape; i++) {
-            for (let j = 0; j < figure[0].length && !hasShape; j++) {
-                if (figure[i][j] == '+') {
-                    hasShape = true;
-
-                    width = figure[i].slice(j + 1).indexOf('+') + 2;
-                    let k = i + 1;
-                    while (k < figure.length && figure[k][j] != '+') {
-                        k++;
-                    }
-                    height = k - i + 1;
-
-                    deleteShape(i, j, width, height);
-                    yield createShape(width, height);
-                }
-            }
-        }
-    }
+    throw new Error('Not implemented');
 }
 
 
