@@ -274,7 +274,24 @@ function reverseInteger(num) {
  *   4916123456789012 => false
  */
 function isCreditCardNumber(ccn) {
-    throw new Error('Not implemented');
+    let strnum = ccn.toString();
+    let sum = 0;
+    let isEvenTurn = false;
+
+    for (let i = strnum.length - 1; i >= 0; i--) {
+        let digit = parseInt(strnum[i]);
+
+        if (isEvenTurn) {
+            if ((digit *= 2) > 9) {
+                digit -= 9;
+            }
+        }
+
+        sum += digit;
+        isEvenTurn = !isEvenTurn;
+    }
+
+    return !(sum % 10);
 }
 
 
@@ -325,7 +342,35 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true
  */
 function isBracketsBalanced(str) {
-    throw new Error('Not implemented');
+    const brackets = new Map([
+        ['[', ']'], ['(', ')'], ['{', '}'], ['<', '>']
+    ]);
+
+    function has(iterator, element) {
+        let current = iterator.next().value;
+        while (current !== undefined) {
+            if (current === element) {
+                return true;
+            }
+            current = iterator.next().value;
+        }
+
+        return false;
+    };
+
+    let stack = [];
+    for (let char of str) {
+        if (has(brackets.keys(), char)) {
+            stack.push(char);
+        } else if (has(brackets.values(), char)) {
+            let removed = stack.pop();
+            if (removed === undefined || brackets.get(removed) !== char) {
+                return false;
+            }
+        }
+    }
+
+    return stack.pop() === undefined;
 }
 
 
@@ -361,7 +406,50 @@ function isBracketsBalanced(str) {
  *
  */
 function timespanToHumanString(startDate, endDate) {
-    throw new Error('Not implemented');
+    const msToSecs = (ms) => ms / 1000;
+    const msToMins = (ms) => ms / (1000 * 60);
+    const msToHours = (ms) => ms / (1000 * 60 * 60);
+    const msToDays = (ms) => ms / (1000 * 60 * 60 * 24);
+    const msToMonths = (ms) => ms / (1000 * 60 * 60 * 24 * 30);
+    const msToYears = (ms) => ms / (1000 * 60 * 60 * 24 * 30 * 12);
+
+    const altRound = (val) => Math.abs(Math.round(val) - val) == 0.5 ? Math.floor(val) : Math.round(val);
+
+    const period = endDate.getTime() - startDate.getTime();
+    switch (true) {
+        case (msToSecs(period) <= 45):
+            return 'a few seconds ago';
+            break;
+        case (msToSecs(period) <= 90):
+            return 'a minute ago';
+            break;
+        case (msToMins(period) <= 45):
+            return `${altRound(msToMins(period))} minutes ago`;
+            break;
+        case (msToMins(period) <= 90):
+            return 'an hour ago';
+            break;
+        case (msToHours(period) <= 22):
+            return `${altRound(msToHours(period))} hours ago`;
+            break;
+        case (msToHours(period) <= 36):
+            return 'a day ago';
+            break;
+        case (msToDays(period) <= 25):
+            return `${altRound(msToDays(period))} days ago`;
+            break;
+        case (msToDays(period) <= 45):
+            return 'a month ago';
+            break;
+        case (msToDays(period) <= 345):
+            return `${altRound(msToMonths(period))} months ago`;
+            break;
+        case (msToDays(period) <= 545):
+            return 'a year ago';
+            break;
+        default:
+            return `${altRound(msToYears(period))} years ago`;
+    }
 }
 
 
@@ -402,7 +490,19 @@ function toNaryString(num, n) {
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(pathes) {
-    throw new Error('Not implemented');
+    pathes.sort();
+
+    let lastDirDelimiter = -1;
+    for (let lastEqual = 0; lastEqual < pathes[0].length; lastEqual++) {
+        if (pathes[0][lastEqual] != pathes[pathes.length - 1][lastEqual]) {
+            break;
+        }
+        if (pathes[0][lastEqual] == '/') {
+            lastDirDelimiter = lastEqual;
+        }
+    }
+
+    return lastDirDelimiter == -1 ? '' : pathes[0].slice(0, lastDirDelimiter + 1);
 }
 
 
@@ -466,7 +566,43 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-    throw new Error('Not implemented');
+    const field = {cols: 3, rows: 3};
+
+    let rowWinners = Array.from({length: field.rows},
+        (elem, index) => position[index][0] !== '' ? position[index][0] : undefined);
+    let colWinners = Array.from({length: field.cols},
+        (elem, index) => position[0][index] !== '' ? position[0][index] : undefined);
+    let primaryDgWinner = position[0][0] !== '' ? position[0][0] : undefined;
+    let secondaryDgWinner = position[0][position[0].length - 1] !== '' ?
+        position[0][position[0].length - 1] : undefined;
+
+    for (let row = 0; row < field.rows; row++) {
+        for (let col = 0; col < field.cols; col++) {
+            if (rowWinners[row] !== undefined && rowWinners[row] !== position[row][col]) {
+                rowWinners[row] = undefined;
+            }
+            if (colWinners[col] !== undefined && colWinners[col] !== position[row][col]) {
+                colWinners[col] = undefined;
+            }
+
+            if (row == col && primaryDgWinner !== undefined) {
+                if (primaryDgWinner !== position[row][col]) {
+                    primaryDgWinner = undefined;
+                }
+            }
+            if (row == field.rows - col - 1 && secondaryDgWinner !== undefined) {
+                if (secondaryDgWinner !== position[row][col]) {
+                    secondaryDgWinner = undefined;
+                }
+            }
+        }
+    }
+
+    return primaryDgWinner !== undefined ? primaryDgWinner :
+        secondaryDgWinner !== undefined ? secondaryDgWinner :
+            rowWinners.indexOf('X') != -1 ? 'X' : rowWinners.indexOf('0') != -1 ? '0' :
+                colWinners.indexOf('X') != -1 ? 'X' : colWinners.indexOf('0') != -1 ? '0' :
+                    undefined;
 }
 
 
