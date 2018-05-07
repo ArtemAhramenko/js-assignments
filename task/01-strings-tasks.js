@@ -201,6 +201,7 @@ function extractEmails(str) {
  *             '└──────────┘\n'
  *
  */
+
 function getRectangleString(width, height) {
     const middleSidePart = repeatString('─', width - 2);
     const heightBlock = "│" + repeatString(' ', width - 2) + "│\n";
